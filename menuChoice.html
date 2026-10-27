@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>점메추</title>
+
+  <style>
+    * {box-sizing: border-box;}
+
+    html {
+      min-height: 100%;
+      background: #fff7eb;
+    }
+
+    body {
+      width: calc(100% - 32px);
+      max-width: 460px;
+      margin: clamp(24px, 8vh, 80px) auto;
+      padding: 40px 32px 32px;
+      display: flex; flex-direction: column;
+      gap: 24px; justify-content: center; align-items: center;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+      color: #392b22;
+      background: #fffdf8;
+      border: 1px solid #eddfcd;
+      border-radius: 28px;
+      box-shadow: 0 12px 36px #6742200d;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: #392b22;
+      font-size: clamp(26px, 6vw, 34px);
+      line-height: 1.35;
+      letter-spacing: -1px;
+      word-break: keep-all;
+    }
+
+    h1::before {
+      content: "🍚";
+      display: block;
+      margin-bottom: 20px;
+      font-size: 80px;
+      line-height: 1.2;
+    }
+
+    button {
+      width: 100%; min-height: 56px;
+      padding: 14px 20px;
+      font: inherit;
+      font-size: 22px; font-weight: 700;
+      color: #fff; background-color: #ed703d;
+      border: none; border-radius: 16px;
+      box-shadow: 0 4px 0 #c85326;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    button::before {content: "✨ ";}
+    button::after {content: " ✨";}
+
+    @media (hover: hover) {
+      button:hover {background-color: #db602e;}
+    }
+
+    button:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #c85326;
+    }
+
+    button:focus-visible {
+      outline: 3px solid #8a431f;
+      outline-offset: 5px;
+    }
+
+    .countMsg {
+      font-size: 16px;
+      color: #8c7968;
+      line-height: 1.6;
+    }
+
+    .result {
+      width: 100%;
+      min-height: 150px;
+      margin-top: 8px;
+      padding: 24px 16px;
+      font-size: 18px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+      background: #fff4e8;
+      border: 1px solid #f2d8bf;
+      border-radius: 18px;
+    }
+
+    .result::before {
+      content: "🍽️";
+      display: block;
+      margin-bottom: 8px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .result span {
+      color: #c44e22;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 480px) {
+      body {padding: 32px 20px 24px; gap: 20px; border-radius: 24px;}
+      h1::before {font-size: 64px; margin-bottom: 16px;}
+      .result {padding: 20px 12px;}
+    }
+  </style>
+</head>
+<body>
+  <h1>오늘의 점심은??</h1>
+  <button id="btn">선정</button>
+  <div class="result">결과 :</div>
+  <div class="countMsg">클릭횟수 : </div>
+  <script>
+  const menus = ['닭갈비', '부대찌개', '라멘', '국밥', '쌀국수', '김치찌개', '김영순', '중국집', '칼국수', '한식뷔페', '순두부찌개', '우동'];
+  
+  const btn = document.querySelector("#btn");
+  const result = document.querySelector(".result");
+  const countMsg = document.querySelector(".countMsg");
+  let count = 0;
+
+  btn.addEventListener('click', () => {
+    const choice = Math.floor(Math.random() * 12);
+
+    count++;
+
+
+    result.innerHTML = `결과 : <span>${ menus[choice] }</span> 가 선정...!`;
+    countMsg.textContent = `클릭 횟수 : ${ count }`;
+
+  });
+  </script>
+</body>
+</html>
