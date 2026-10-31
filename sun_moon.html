@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sun&moon</title>
+
+  <style>
+    .board {
+      width: max-content;
+      margin: 40px auto;
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .board > button {
+      border: 1px solid #000;
+      width: 100px; height: 100px;
+      background-color: #eabfbf;
+      border-radius: 20px;
+      font-size: 4em;
+    }
+
+    #turnCheck {
+      width: max-content;
+      margin: 20px auto;
+      font-size: 2em;
+    }
+
+    .nowTurn {
+      font-size: 3rem;
+    }
+
+    #resetBtn {
+      width: 100px; height: 40px;
+      display: block; margin: 0 auto;
+      border: 1px solid #000;
+      border-radius: 10px;
+      background-color: #137590;
+      color: #fff;
+    }
+
+
+    .result {
+      width: 100%; height: 98vh;
+      position: absolute;
+      top: 0; left: 0; z-index: 1000;
+      background-color: #000000e6;
+      transition: all 0.3s;
+      font-size: 3rem; color: #fff;
+      text-align: center; line-height: 98vh;
+      opacity: 0; pointer-events: none;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="board"></div>
+  <div id="turnCheck">현재 턴 : <span class="nowTurn">☀️</span></div>
+  <button id="resetBtn">게임 다시하기</button>
+  <div class="result">승리</div>
+
+  <script>
+    const board = document.querySelector(".board");
+    const resetBtn = document.querySelector("#resetBtn");
+    const nowTurn = document.querySelector(".nowTurn");
+    const result = document.querySelector('.result');
+    
+    let buttons = [];
+
+    gameInit();
+    
+    
+    function gameInit() {
+      
+      for (let i = 0; i < 9; i++) {
+        
+        const btn = document.createElement('button');
+        board.appendChild(btn);
+        
+        const r = Math.floor(i / 3);
+        if (!buttons[r]) buttons[r] = [];
+        buttons[r].push(btn);
+        
+      }
+    }
+    const btns = document.querySelectorAll('.board > button');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (result.style.opacity === '1') return; // 게임이 끝나면 클릭 안되게하기
+
+        emoji(btn);
+        checkWin();
+      });
+    });
+    
+    //이모지 삽입
+    function emoji(btn) {
+      if (nowTurn.textContent === '🌑' && !btn.textContent) {
+        btn.textContent = '🌑';
+        nowTurn.textContent = '☀️';
+      } else if (nowTurn.textContent === '☀️' && !btn.textContent) {
+        btn.textContent = '☀️';
+        nowTurn.textContent = '🌑';
+      }
+    }
+
+
+
+    //가로 & 세로 & 대각 검사
+    function checkWin() {
+      
+      
+      //가로검사
+      buttons.forEach((row) => {
+        if (row.every(btn => btn.textContent === '☀️')) {
+          result.textContent = '☀️ 의 승리!!!';
+          result.style.opacity = '1';
+          return;
+        }
+        
+        if (row.every(btn => btn.textContent === '🌑')) {
+          result.textContent = '🌑 의 승리!!!';
+          result.style.opacity = '1';
+          return;
+        }
+      })
+      
+      
+      //세로검사
+      for (let col = 0; col < 3; col++) { 
+        let cols = [];
+        
+        for (let row = 0; row < 3; row++) {
+          cols.push(buttons[row] [col]);
+        }
+        
+        if (cols.every(btn => btn.textContent === '☀️')) {
+          result.textContent = '☀️ 의 승리!!!';
+          result.style.opacity = '1';
+          
+          return;
+        }
+        
+        if (cols.every(btn => btn.textContent === '🌑')) {
+          result.textContent = '🌑 의 승리!!!';
+          result.style.opacity = '1';
+          
+          return;
+        }
+      }
+      
+
+      //대각선 검사
+      let d1 = [], d2 = [];
+      for (let i = 0; i < 3; i++) {
+        
+        d1.push(buttons[i] [i]);
+        d2.push(buttons[i] [2 - i]);
+        
+      }
+      if (d1.every(btn => btn.textContent === '☀️') || d2.every(btn => btn.textContent === '☀️')) {
+        result.textContent = '☀️ 의 승리!!!';
+        result.style.opacity = '1';
+        
+        return;
+      }
+      
+      if (d1.every(btn => btn.textContent === '🌑') || d2.every(btn => btn.textContent === '🌑')) {
+        result.textContent = '🌑 의 승리!!!';
+        result.style.opacity = '1';
+        
+        return;
+      }
+      
+      //무승부
+      if ([...btns].every(btn => btn.textContent !== '')) {
+        result.textContent = '무승부';
+        result.style.opacity = '1';
+      }
+    }
+    
+    resetBtn.addEventListener('click', function() {
+      btns.forEach(function(btn) {
+        btn.textContent = '';
+        nowTurn.textContent ='☀️';
+        result.style.opacity = '0';
+      });
+    }); 
+    
+  </script>
+</body>
+</html>
