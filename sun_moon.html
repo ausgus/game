@@ -6,6 +6,14 @@
   <title>sun&moon</title>
 
   <style>
+    .rule {
+      width: max-content;
+      margin: 40px auto 0;
+      font-size: 1.7rem; line-height: 1.7em;
+      color: #1a1a1a;
+    }
+
+
     .board {
       width: max-content;
       margin: 40px auto;
@@ -56,6 +64,11 @@
   </style>
 </head>
 <body>
+  <div class="rule">
+    1.가로 / 세로 / 대각 의 한줄을 완성하면 승리한다. <br>
+    2.이미 위치한 칸에는 다시 위치할 수 없다.
+
+  </div>
   <div class="board"></div>
   <div id="turnCheck">현재 턴 : <span class="nowTurn">☀️</span></div>
   <button id="resetBtn">게임 다시하기</button>
